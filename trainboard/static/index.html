@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c2231">
+  <title>TrainBoard</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">✚</span><div><strong>TrainBoard</strong><small>训练任务与运行记录</small></div></div>
+    <div class="top-actions"><button id="guide" class="ghost">训练指南</button><span id="connection" class="status dark">连接中</span></div>
+  </header>
+  <main>
+    <section class="heading">
+      <div><p class="eyebrow">TRAINBOARD / WORKSPACE</p><h1>训练调度台</h1><p>顺序排队 · 动态指标 · 实时日志</p></div>
+      <div class="actions"><button id="pause" class="secondary">暂停派发</button><button id="start" class="primary"><span aria-hidden="true">▶</span> 开始队列</button></div>
+    </section>
+    <section class="kpis" aria-label="运行概况">
+      <article class="kpi"><span>历史运行</span><strong id="count-runs">—</strong><small>项目 runs 目录</small></article>
+      <article class="kpi"><span>已完成最佳指标</span><strong id="best-auc">—</strong><small id="best-model">已记录的指标</small></article>
+      <article class="kpi"><span>等待训练</span><strong id="count-queue">0</strong><small>任务按顺序派发</small></article>
+      <article class="kpi"><span>当前任务</span><strong class="active-kpi" id="active-model">空闲</strong><small id="active-phase">等待开始</small></article>
+    </section>
+    <div class="workspace">
+      <aside>
+        <section class="card">
+          <div class="card-head"><div><p class="eyebrow">01 / ENQUEUE</p><h2>添加训练任务</h2></div></div>
+          <form id="composer">
+            <label for="entry">模型入口</label><select id="entry" required></select>
+            <button type="button" id="source" class="text-button">查看 train.py</button>
+            <div class="fields" id="parameters"></div>
+            <p class="muted small" id="option-note">留空沿用脚本配置。</p>
+            <button type="submit" class="primary full">＋ 加入队列</button>
+          </form>
+          <div id="presets" hidden></div>
+        </section>
+        <div id="resources" hidden></div>
+      </aside>
+      <div class="content">
+        <section class="card">
+          <div class="card-head"><div><p class="eyebrow">03 / QUEUE</p><h2>训练队列</h2></div><span class="status" id="queue-state">已暂停</span></div>
+          <p class="queue-message" id="queue-message" role="status">等待面板加载</p>
+          <div id="queue-list" class="queue-list"></div>
+        </section>
+        <section class="card">
+          <div class="card-head"><div><p class="eyebrow">04 / RUNS</p><h2>结果与动态曲线</h2></div><button hidden id="open-run" class="secondary compact" disabled>打开结果目录</button></div>
+          <div class="run-picker">
+            <input id="run-search" type="search" placeholder="搜索模型、seed 或路径" aria-label="搜索运行">
+            <select id="run" aria-label="选择训练运行"></select>
+            <button id="follow" class="secondary compact">跟踪当前</button>
+          </div>
+          <div id="run-summary" class="run-summary"></div>
+          <div class="tabs" id="tabs" aria-label="图表类型">
+            <button data-tab="score" class="selected">指标曲线</button><button data-tab="loss">训练 / 验证损失</button><button data-tab="class">逐类 AUC</button>
+          </div>
+          <label class="metric-picker">指标<select id="metric"></select></label><div id="chart" class="chart"></div>
+          <div id="figures" class="figures"></div>
+        </section>
+        <section class="card log-card">
+          <div class="card-head"><div><p class="eyebrow">05 / LOG</p><h2>训练控制台</h2></div><select id="log-task" aria-label="选择日志任务"></select></div>
+          <pre id="log" tabindex="0">面板启动的任务日志会出现在这里。</pre>
+        </section>
+      </div>
+    </div>
+    <footer>关闭网页可继续训练，请保持面板服务运行。</footer>
+  </main>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <dialog id="preview"><header><h2 id="preview-title"></h2><button id="close-preview" class="secondary compact">关闭</button></header><pre id="preview-text"></pre></dialog>
+</body>
+</html>

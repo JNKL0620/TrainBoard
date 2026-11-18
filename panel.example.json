@@ -1,0 +1,23 @@
+{
+  "title": "TrainBoard",
+  "runs_dir": "runs",
+  "state_dir": ".trainboard",
+  "primary_metric": "auc",
+  "metric_mode": "max",
+  "min_available_gib": 0,
+  "entries": {
+    "demo": {
+      "label": "CPU 示例训练",
+      "group": "快速体验",
+      "script": "examples/train_demo.py",
+      "cwd": ".",
+      "args": ["--run-dir", "{run_dir}"],
+      "parameters": {
+        "epochs": {"type": "int", "default": 8, "min": 1, "max": 10000, "label": "轮次"},
+        "seed": {"type": "int", "default": 42, "min": 0, "label": "随机种子"},
+        "lr": {"type": "float", "default": 0.001, "min": 0.000000001, "label": "学习率"},
+        "delay": {"type": "float", "default": 0.5, "min": 0, "max": 3600, "label": "每轮秒数"}
+      }
+    }
+  }
+}
